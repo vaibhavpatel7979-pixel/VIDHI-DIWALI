@@ -5,16 +5,52 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Diwali Celebration</title>
 <style>
-body{margin:0;height:100vh;background:#0a0a23; display:flex; justify-content:center; align-items:center; color:#fff; overflow:hidden; flex-direction:column;}
-h2{font-size:3em; margin-bottom:20px;}
-.firework{ position:absolute; width:5px; height:5px; background:#fff; border-radius:50%; animation:shoot 1s linear infinite;}
-@keyframes shoot{0%{transform:translateY(0) scale(1); opacity:1;}100%{transform:translateY(-600px) scale(0);opacity:0;}}
+body {
+  margin:0;
+  background:#0b0c2b;
+  overflow:hidden;
+  height:100vh;
+  font-family:sans-serif;
+  color:#fff;
+}
+h2 {
+  text-align:center;
+  margin-top:60px;
+  font-size:3em;
+  color:#f1c40f;
+  text-shadow:0 0 20px #fff;
+}
+nav{
+  position:fixed; top:0; width:100%; background:#333; padding:10px; text-align:center; z-index:1000;
+}
+nav a{color:white; margin:10px; text-decoration:none; font-weight:bold;}
+.firework {
+  position:absolute;
+  width:5px;
+  height:5px;
+  border-radius:50%;
+  background:white;
+  animation:explode 1s linear infinite;
+}
+@keyframes explode{
+  0%{transform:scale(1) translateY(0); opacity:1;}
+  50%{transform:scale(2) translateY(-150px); opacity:1;}
+  100%{transform:scale(0) translateY(-300px); opacity:0;}
+}
 </style>
 </head>
 <body>
-<h2>Diwali Celebration 🎇</h2>
-<div class="firework" style="left:10%; animation-delay:0s;"></div>
-<div class="firework" style="left:50%; animation-delay:0.5s;"></div>
-<div class="firework" style="left:90%; animation-delay:1s;"></div>
+<nav>
+  <a href="photos.html">Prev ◀</a>
+  <a href="celebration.html">Celebration</a>
+  <a href="sweets.html">Next ➤</a>
+</nav>
+<h2>Diwali Fireworks 🎆</h2>
+
+<div class="firework" style="left:10%; top:80%; animation-delay:0s;"></div>
+<div class="firework" style="left:30%; top:90%; animation-delay:0.3s;"></div>
+<div class="firework" style="left:50%; top:85%; animation-delay:0.6s;"></div>
+<div class="firework" style="left:70%; top:95%; animation-delay:0.9s;"></div>
+<div class="firework" style="left:90%; top:80%; animation-delay:1.2s;"></div>
 </body>
 </html>
