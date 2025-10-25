@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diwali Celebration</title>
+<style>
+body{margin:0;height:100vh;background:#0a0a23; display:flex; justify-content:center; align-items:center; color:#fff; overflow:hidden; flex-direction:column;}
+h2{font-size:3em; margin-bottom:20px;}
+.firework{ position:absolute; width:5px; height:5px; background:#fff; border-radius:50%; animation:shoot 1s linear infinite;}
+@keyframes shoot{0%{transform:translateY(0) scale(1); opacity:1;}100%{transform:translateY(-600px) scale(0);opacity:0;}}
+</style>
+</head>
+<body>
+<h2>Diwali Celebration 🎇</h2>
+<div class="firework" style="left:10%; animation-delay:0s;"></div>
+<div class="firework" style="left:50%; animation-delay:0.5s;"></div>
+<div class="firework" style="left:90%; animation-delay:1s;"></div>
+</body>
+</html>
