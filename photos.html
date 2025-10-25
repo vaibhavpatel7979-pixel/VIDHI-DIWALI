@@ -6,77 +6,120 @@
 <title>Vidhi's Photos</title>
 <style>
 body {
-  margin:0;
-  padding-top:60px;
-  background:linear-gradient(to bottom,#fff7e6,#ffe6e6);
+  margin:0; padding-top:60px;
+  background:linear-gradient(to bottom, #fff7e6, #ffe6e6);
   font-family:sans-serif;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  overflow:hidden;
+  display:flex; flex-direction:column; align-items:center;
+  overflow-x:hidden;
 }
-h2 {
-  text-align:center;
-  color:#d35400;
-  margin-bottom:20px;
-  font-size:2.5em;
-  text-shadow:2px 2px 8px #ffecb3;
-}
+
+/* Navigation */
 nav{
   position:fixed; top:0; width:100%; background:#333; padding:10px; text-align:center; z-index:1000;
 }
 nav a{
   color:white; margin:10px; text-decoration:none; font-weight:bold;
 }
+
+/* Heading */
+h2 {
+  text-align:center; color:#d35400;
+  margin-bottom:20px; font-size:2.5em;
+  text-shadow: 2px 2px 5px #ffecb3;
+  position:relative; z-index:2;
+  animation:fadeIn 2s ease forwards;
+}
+@keyframes fadeIn{from{opacity:0;} to{opacity:1;}}
+
+/* Photo container */
 .photo-container {
   display:grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap:40px;
   justify-items:center;
   width:90%;
   max-width:900px;
+  position:relative; z-index:2;
 }
+
+/* Photo frame with floating animation */
 .photo-frame {
-  width:250px;
-  height:250px;
-  border:5px solid #fff;
-  border-radius:15px;
-  overflow:hidden;
-  box-shadow:0 0 20px rgba(255,215,0,0.8);
+  width:250px; height:250px;
+  border:5px solid #fff; border-radius:15px; overflow:hidden;
+  box-shadow:0 10px 20px rgba(0,0,0,0.5);
   transform:rotate(-5deg);
   transition: all 0.7s ease;
   animation: float 4s ease-in-out infinite;
+  position:relative;
 }
 .photo-frame:hover {
   transform:rotate(0deg) scale(1.1);
-  box-shadow:0 0 30px #ff6347,0 0 50px #ffd700;
+  box-shadow:0 20px 30px rgba(255,215,0,0.8);
 }
-/* Floating animation */
+
 @keyframes float {
   0%, 100% { transform: rotate(-5deg) translateY(0);}
   50% { transform: rotate(-5deg) translateY(-15px);}
 }
-/* Lighting particles */
-.particle {
-  position:absolute; width:4px; height:4px; border-radius:50%; background:gold; opacity:0.7;
-  animation:light 3s linear infinite;
+
+/* Floating sparkles behind photos */
+.sparkle {
+  position:absolute;
+  width:5px; height:5px;
+  background:gold; border-radius:50%;
+  animation:twinkle 2s infinite;
+  opacity:0.8;
+  z-index:1;
 }
-@keyframes light{
-  0%{transform:translateY(0);opacity:0.7;}
-  50%{transform:translateY(-20px); opacity:1;}
-  100%{transform:translateY(0); opacity:0.7;}
+@keyframes twinkle{
+  0%, 100% {transform:scale(1); opacity:0.8;}
+  50% {transform:scale(1.5); opacity:1;}
 }
+
+/* Diyas at bottom */
+.diya {
+  position:absolute; bottom:20px; width:50px; height:80px;
+  background:radial-gradient(circle at bottom, #ff9900, #cc6600);
+  border-radius:50% 50% 50% 50% / 30% 30% 70% 70%;
+  box-shadow:0 0 20px #ffcc66;
+  animation:flicker 1.5s infinite;
+  z-index:2;
+}
+.flame {
+  width:10px; height:20px;
+  background:radial-gradient(circle, #ffdd55, #ff8800);
+  border-radius:50%;
+  position:absolute; top:-20px; left:50%;
+  transform:translateX(-50%);
+  animation:flameFlicker 1s infinite;
+}
+@keyframes flicker {
+  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {opacity: 1;}
+  20%, 22%, 24%, 55% {opacity: 0.5;}
+}
+@keyframes flameFlicker {
+  0%, 50%, 100% {transform: translateX(-50%) scale(1);}
+  25% {transform: translateX(-48%) scale(1.1);}
+  75% {transform: translateX(-52%) scale(0.9);}
+}
+
+/* Next button */
+.next-btn {margin-top:30px; padding:10px 20px; background:gold; color:#000; text-decoration:none; font-weight:bold; border-radius:10px; z-index:2; position:relative;}
 </style>
 </head>
 <body>
+
 <nav>
-  <a href="index.html">Prev ◀</a>
+  <a href="index.html">Home</a>
   <a href="photos.html">Photos</a>
-  <a href="celebration.html">Next ➤</a>
+  <a href="celebration.html">Celebration</a>
+  <a href="sweets.html">Sweets</a>
+  <a href="video.html">Video</a>
+  <a href="quotes.html">Quotes</a>
 </nav>
-<div style="height:60px;"></div>
 
 <h2>Vidhi’s Photos 💖</h2>
+
 <div class="photo-container">
   <div class="photo-frame"><img src="images/photo1.jpg" width="100%" height="100%"></div>
   <div class="photo-frame"><img src="images/photo2.jpg" width="100%" height="100%"></div>
@@ -84,16 +127,28 @@ nav a{
   <div class="photo-frame"><img src="images/photo4.jpg" width="100%" height="100%"></div>
 </div>
 
+<a href="celebration.html" class="next-btn">Next ➤</a>
+
+<!-- Floating sparkles -->
+<div id="sparkles"></div>
+
+<!-- Diyas -->
+<div class="diya" style="left:50px;"><div class="flame"></div></div>
+<div class="diya" style="left:150px;"><div class="flame"></div></div>
+<div class="diya" style="left:250px;"><div class="flame"></div></div>
+<div class="diya" style="left:350px;"><div class="flame"></div></div>
+<div class="diya" style="left:450px;"><div class="flame"></div></div>
+
 <script>
-// Add floating gold particles
-function random(min,max){return Math.random()*(max-min)+min;}
-for(let i=0;i<20;i++){
-  const p=document.createElement("div");
-  p.className="particle";
-  p.style.left=random(0,window.innerWidth-5)+"px";
-  p.style.top=random(100,window.innerHeight-50)+"px";
-  p.style.animationDuration=random(2,4)+'s';
-  document.body.appendChild(p);
+// Sparkles animation
+const sparkleContainer = document.getElementById('sparkles');
+for(let i=0;i<50;i++){
+  const sparkle = document.createElement('div');
+  sparkle.className='sparkle';
+  sparkle.style.left=Math.random()*window.innerWidth+'px';
+  sparkle.style.top=Math.random()*window.innerHeight+'px';
+  sparkle.style.animationDuration=(1+Math.random()*2)+'s';
+  sparkleContainer.appendChild(sparkle);
 }
 </script>
 
