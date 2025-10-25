@@ -10,10 +10,23 @@ body { margin:0; height:100vh; background:linear-gradient(to top, #0b0c2b,#3a0b6
 h1{ font-size:5em; color:gold; text-shadow:0 0 20px #ffd700,0 0 40px #ff6347,0 0 60px #ff69b4; animation:glow 2s infinite alternate;}
 @keyframes glow{from{text-shadow:0 0 20px #ffd700,0 0 40px #ff6347,0 0 60px #ff69b4;} to{text-shadow:0 0 40px #ffd700,0 0 80px #ff6347,0 0 120px #ff69b4;}}
 p{font-size:1.5em; color:#ffecb3; margin-top:20px;}
+nav{position:fixed; top:0; width:100%; background:#333; padding:10px; text-align:center; z-index:1000;}
+nav a{color:white; margin:10px; text-decoration:none; font-weight:bold;}
+.next-btn {margin-top:30px; padding:10px 20px; background:gold; color:#000; text-decoration:none; font-weight:bold; border-radius:10px;}
 </style>
 </head>
 <body>
+<nav>
+  <a href="index.html">Home</a>
+  <a href="photos.html">Photos</a>
+  <a href="celebration.html">Celebration</a>
+  <a href="sweets.html">Sweets</a>
+  <a href="video.html">Video</a>
+  <a href="quotes.html">Quotes</a>
+</nav>
+<div style="height:60px;"></div>
 <h1>Happy Diwali 💛</h1>
 <p>Wishing you joy, love & lights!</p>
+<a href="photos.html" class="next-btn">Next ➤</a>
 </body>
 </html>
