@@ -6,60 +6,135 @@
 <title>Diwali Celebration</title>
 <style>
 body {
-  margin:0;
-  background:radial-gradient(ellipse at bottom, #0b0c2b 0%, #1a1a2e 100%);
-  overflow:hidden;
-  height:100vh;
-  font-family:sans-serif;
-  color:#fff;
+  margin:0; overflow:hidden; height:100vh;
+  background: radial-gradient(circle at top, #0b0c2b 0%, #2e1052 100%);
+  font-family:sans-serif; color:#fff; display:flex; justify-content:center; align-items:center; flex-direction:column;
 }
+
+/* Navigation */
 nav{
   position:fixed; top:0; width:100%; background:#333; padding:10px; text-align:center; z-index:1000;
 }
 nav a{color:white; margin:10px; text-decoration:none; font-weight:bold;}
-h2{margin-top:60px; text-align:center; font-size:3em; color:#f1c40f; text-shadow:0 0 20px #fff;}
-/* Firework particle */
-.particle {
-  position:absolute;
-  width:4px; height:4px;
+
+/* Heading */
+h2 {
+  position:relative; z-index:2; font-size:3em; color:#ffd700; text-shadow:0 0 20px #ffecb3, 0 0 40px #ffd700;
+  animation:headingGlow 2s infinite alternate;
+}
+@keyframes headingGlow {
+  0% { text-shadow:0 0 20px #ffd700,0 0 40px #ff6347; }
+  50% { text-shadow:0 0 40px #ffea00,0 0 80px #ff4500,0 0 120px #ff6347; }
+  100% { text-shadow:0 0 60px #ffd700,0 0 120px #ff6347; }
+}
+
+/* Floating sparkles */
+.sparkle {
+  position:absolute; width:4px; height:4px; background:gold; border-radius:50%;
+  opacity:0.8; animation:twinkle 2s infinite; z-index:1;
+}
+@keyframes twinkle {0%,100%{transform:scale(1);opacity:0.8;}50%{transform:scale(1.5);opacity:1;}}
+
+/* Diyas */
+.diya {
+  position:absolute; bottom:20px; width:50px; height:80px;
+  background:radial-gradient(circle at bottom, #ff9900, #cc6600);
+  border-radius:50% 50% 50% 50% / 30% 30% 70% 70%;
+  box-shadow:0 0 20px #ffcc66;
+  animation:flicker 1.5s infinite; z-index:2;
+}
+.flame {
+  width:10px; height:20px;
+  background:radial-gradient(circle, #ffdd55, #ff8800);
   border-radius:50%;
-  opacity:0.8;
-  animation:explode 1.5s ease-out infinite;
+  position:absolute; top:-20px; left:50%; transform:translateX(-50%);
+  animation:flameFlicker 1s infinite;
 }
-@keyframes explode{
-  0%{transform:translate(0,0) scale(1); opacity:1;}
-  80%{opacity:1;}
-  100%{transform:translate(var(--x), var(--y)) scale(0); opacity:0;}
-}
+@keyframes flicker {0%,19%,21%,23%,25%,54%,56%,100%{opacity:1;}20%,22%,24%,55%{opacity:0.5;}}
+@keyframes flameFlicker {0%,50%,100%{transform:translateX(-50%) scale(1);}25%{transform:translateX(-48%) scale(1.1);}75%{transform:translateX(-52%) scale(0.9);}}
+
+/* Fireworks canvas */
+canvas#fireworks {position:absolute; top:0; left:0; width:100%; height:100%; z-index:0; pointer-events:none;}
 </style>
 </head>
 <body>
+
 <nav>
   <a href="photos.html">Prev ◀</a>
   <a href="celebration.html">Celebration</a>
   <a href="sweets.html">Next ➤</a>
 </nav>
+
 <h2>Diwali Fireworks 🎆</h2>
 
+<!-- Floating sparkles -->
+<div id="sparkles"></div>
+
+<!-- Diyas -->
+<div class="diya" style="left:50px;"><div class="flame"></div></div>
+<div class="diya" style="left:150px;"><div class="flame"></div></div>
+<div class="diya" style="left:250px;"><div class="flame"></div></div>
+<div class="diya" style="left:350px;"><div class="flame"></div></div>
+<div class="diya" style="left:450px;"><div class="flame"></div></div>
+
+<!-- Fireworks canvas -->
+<canvas id="fireworks"></canvas>
+
+<!-- Background music -->
+<audio id="music" autoplay loop>
+  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+</audio>
+
 <script>
-// Generate fireworks
-function random(min,max){return Math.random()*(max-min)+min;}
-function createFirework(){
-  const colors = ["#ff0000","#ffba00","#00ffba","#ff00ff","#ffffff"];
-  for(let i=0;i<30;i++){
-    const p=document.createElement("div");
-    p.className="particle";
-    p.style.backgroundColor = colors[Math.floor(Math.random()*colors.length)];
-    p.style.left = random(100,window.innerWidth-100)+"px";
-    p.style.top = random(100,window.innerHeight-200)+"px";
-    p.style.setProperty('--x', random(-100,100)+'px');
-    p.style.setProperty('--y', random(-200,-50)+'px');
-    p.style.animationDuration = random(1,2)+'s';
-    document.body.appendChild(p);
-    setTimeout(()=>{p.remove();},2000);
-  }
+// Sparkles
+const sparkleContainer = document.getElementById('sparkles');
+for(let i=0;i<80;i++){
+  const s=document.createElement('div');
+  s.className='sparkle';
+  s.style.left=Math.random()*window.innerWidth+'px';
+  s.style.top=Math.random()*window.innerHeight+'px';
+  s.style.animationDuration=(1+Math.random()*2)+'s';
+  sparkleContainer.appendChild(s);
 }
-setInterval(createFirework,500);
+
+// Fireworks
+const canvas=document.getElementById('fireworks');
+const ctx=canvas.getContext('2d');
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+const fireworks=[],particles=[];
+
+class Firework {
+  constructor(x,y,targetY){this.x=x;this.y=y;this.targetY=targetY;this.speed=5;this.exploded=false;}
+  update(){
+    this.y-=this.speed;
+    if(this.y<=this.targetY && !this.exploded){
+      this.exploded=true;
+      for(let i=0;i<60;i++){particles.push(new Particle(this.x,this.y));}
+    }
+  }
+  draw(){if(!this.exploded){ctx.beginPath();ctx.arc(this.x,this.y,3,0,Math.PI*2);ctx.fillStyle='white';ctx.fill();}}
+}
+class Particle{
+  constructor(x,y){
+    this.x=x;this.y=y;
+    this.velX=(Math.random()-0.5)*8;
+    this.velY=(Math.random()-0.5)*8;
+    this.alpha=1;
+    this.color=`hsl(${Math.random()*360},100%,50%)`;
+  }
+  update(){this.x+=this.velX;this.y+=this.velY;this.alpha-=0.02;}
+  draw(){ctx.globalAlpha=this.alpha;ctx.beginPath();ctx.arc(this.x,this.y,3,0,Math.PI*2);ctx.fillStyle=this.color;ctx.fill();ctx.globalAlpha=1;}
+}
+function animate(){
+  ctx.fillStyle='rgba(11,12,43,0.2)'; ctx.fillRect(0,0,canvas.width,canvas.height);
+  if(Math.random()<0.05){fireworks.push(new Firework(Math.random()*canvas.width,canvas.height,Math.random()*canvas.height/2));}
+  for(let i=fireworks.length-1;i>=0;i--){fireworks[i].update();fireworks[i].draw();if(fireworks[i].exploded)fireworks.splice(i,1);}
+  for(let i=particles.length-1;i>=0;i--){particles[i].update();particles[i].draw();if(particles[i].alpha<=0)particles.splice(i,1);}
+  requestAnimationFrame(animate);
+}
+animate();
 </script>
+
 </body>
 </html>
