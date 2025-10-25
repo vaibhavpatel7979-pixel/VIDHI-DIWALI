@@ -8,7 +8,8 @@
 body {
   margin:0; padding-top:60px; height:100vh;
   background: radial-gradient(circle at top, #fff7e6 0%, #ffe6e6 100%);
-  font-family:sans-serif; display:flex; flex-direction:column; align-items:center; overflow:hidden;
+  font-family:sans-serif; display:flex; flex-direction:column; align-items:center; justify-content:center;
+  overflow:hidden;
 }
 
 /* Navigation */
@@ -19,44 +20,26 @@ nav a{color:white; margin:10px; text-decoration:none; font-weight:bold;}
 
 /* Heading */
 h2 {
-  margin-top:60px; font-size:3em; color:#d35400;
+  font-size:3em; color:#d35400;
   text-shadow: 2px 2px 5px #ffecb3;
-  position:relative; z-index:2;
-  animation:fadeIn 2s ease forwards;
-}
-@keyframes fadeIn{from{opacity:0;} to{opacity:1;}}
-
-/* Sweets container */
-.sweets-container {
-  display:grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap:30px; justify-items:center;
-  width:90%; max-width:900px;
-  position:relative; z-index:2;
+  margin-bottom:40px;
 }
 
-/* Sweet frame with floating + shadow */
-.sweet-frame {
-  width:120px; height:120px; border-radius:15px;
-  overflow:hidden; transition: all 0.7s ease;
-  animation: floatSweet 3s ease-in-out infinite;
-  position:relative; box-shadow:0 5px 15px rgba(0,0,0,0.3);
+/* Big sweet image */
+.sweet-img {
+  width:350px; /* desktop size */
+  max-width:90%; 
+  border-radius:20px; 
+  box-shadow:0 10px 30px rgba(0,0,0,0.5);
+  transition: transform 0.7s, box-shadow 0.7s;
 }
-.sweet-frame:hover { transform:scale(1.2); box-shadow:0 10px 25px rgba(255,215,0,0.8); }
-@keyframes floatSweet {
-  0%,100%{transform: translateY(0);}
-  50%{transform: translateY(-10px);}
+.sweet-img:hover {
+  transform:scale(1.1);
+  box-shadow:0 15px 40px rgba(255,215,0,0.8);
 }
-
-/* Sparkles around sweets */
-.sparkle {
-  position:absolute; width:4px; height:4px; background:gold; border-radius:50%;
-  opacity:0.8; animation:twinkle 2s infinite; z-index:1;
-}
-@keyframes twinkle {0%,100%{transform:scale(1);opacity:0.8;}50%{transform:scale(1.5);opacity:1;}}
 
 /* Next button */
-.next-btn {margin-top:30px; padding:10px 20px; background:gold; color:#000; text-decoration:none; font-weight:bold; border-radius:10px; z-index:2; position:relative;}
+.next-btn {margin-top:30px; padding:10px 20px; background:gold; color:#000; text-decoration:none; font-weight:bold; border-radius:10px;}
 </style>
 </head>
 <body>
@@ -67,34 +50,12 @@ h2 {
   <a href="video.html">Next ➤</a>
 </nav>
 
-<h2>Delicious Diwali Sweets 🍬</h2>
+<h2>Delicious Diwali Sweet 🍬</h2>
 
-<div class="sweets-container">
-  <div class="sweet-frame"><img src="images/kajukatli.png" width="100%" height="100%"></div>
-  <div class="sweet-frame"><img src="images/laddoo.png" width="100%" height="100%"></div>
-  <div class="sweet-frame"><img src="images/barfi.png" width="100%" height="100%"></div>
-  <div class="sweet-frame"><img src="images/mysorepak.png" width="100%" height="100%"></div>
-  <div class="sweet-frame"><img src="images/sonpapdi.png" width="100%" height="100%"></div>
-  <div class="sweet-frame"><img src="images/peda.png" width="100%" height="100%"></div>
-</div>
-
-<!-- Sparkles -->
-<div id="sparkles"></div>
+<!-- Use the photo from your images folder -->
+<img src="images/photo1.jpg" class="sweet-img" alt="Sweet">
 
 <a href="video.html" class="next-btn">Next ➤</a>
-
-<script>
-// Sparkles animation
-const sparkleContainer=document.getElementById('sparkles');
-for(let i=0;i<50;i++){
-  const s=document.createElement('div');
-  s.className='sparkle';
-  s.style.left=Math.random()*window.innerWidth+'px';
-  s.style.top=Math.random()*window.innerHeight+'px';
-  s.style.animationDuration=(1+Math.random()*2)+'s';
-  sparkleContainer.appendChild(s);
-}
-</script>
 
 </body>
 </html>
