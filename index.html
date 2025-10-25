@@ -6,16 +6,71 @@
 <title>Happy Diwali</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
-body { margin:0; height:100vh; background:linear-gradient(to top, #0b0c2b,#3a0b68); display:flex; justify-content:center; align-items:center; flex-direction:column; font-family:'Pacifico', cursive; color:#fff; overflow:hidden;}
-h1{ font-size:5em; color:gold; text-shadow:0 0 20px #ffd700,0 0 40px #ff6347,0 0 60px #ff69b4; animation:glow 2s infinite alternate;}
-@keyframes glow{from{text-shadow:0 0 20px #ffd700,0 0 40px #ff6347,0 0 60px #ff69b4;} to{text-shadow:0 0 40px #ffd700,0 0 80px #ff6347,0 0 120px #ff69b4;}}
-p{font-size:1.5em; color:#ffecb3; margin-top:20px;}
-nav{position:fixed; top:0; width:100%; background:#333; padding:10px; text-align:center; z-index:1000;}
+
+/* Basic setup */
+body {
+  margin:0; height:100vh; overflow:hidden;
+  background:linear-gradient(to top, #0b0c2b,#3a0b68);
+  font-family:'Pacifico', cursive; color:#fff;
+  display:flex; justify-content:center; align-items:center; flex-direction:column;
+}
+
+/* Flickering glow heading */
+h1{
+  font-size:5em; color:gold;
+  text-shadow:0 0 20px #ffd700,0 0 40px #ff6347,0 0 60px #ff69b4;
+  animation:glow 2s infinite alternate;
+  position:relative; z-index:2;
+}
+@keyframes glow{
+  from{text-shadow:0 0 20px #ffd700,0 0 40px #ff6347,0 0 60px #ff69b4;}
+  to{text-shadow:0 0 40px #ffd700,0 0 80px #ff6347,0 0 120px #ff69b4;}
+}
+
+p{font-size:1.5em; color:#ffecb3; margin-top:20px; z-index:2; position:relative;}
+
+/* Navigation */
+nav{
+  position:fixed; top:0; width:100%; background:#333; padding:10px; text-align:center; z-index:1000;
+}
 nav a{color:white; margin:10px; text-decoration:none; font-weight:bold;}
-.next-btn {margin-top:30px; padding:10px 20px; background:gold; color:#000; text-decoration:none; font-weight:bold; border-radius:10px;}
+.next-btn {margin-top:30px; padding:10px 20px; background:gold; color:#000; text-decoration:none; font-weight:bold; border-radius:10px; z-index:2; position:relative;}
+
+/* Canvas for fireworks */
+canvas#fireworks {
+  position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:1;
+}
+
+/* Floating diyas */
+.diya {
+  position:absolute; bottom:20px; width:50px; height:80px;
+  background:radial-gradient(circle at bottom, #ff9900, #cc6600);
+  border-radius:50% 50% 50% 50% / 30% 30% 70% 70%;
+  box-shadow:0 0 20px #ffcc66;
+  animation:flicker 1.5s infinite;
+  z-index:2;
+}
+.flame {
+  width:10px; height:20px;
+  background:radial-gradient(circle, #ffdd55, #ff8800);
+  border-radius:50%;
+  position:absolute; top:-20px; left:50%;
+  transform:translateX(-50%);
+  animation:flameFlicker 1s infinite;
+}
+@keyframes flicker {
+  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {opacity: 1;}
+  20%, 22%, 24%, 55% {opacity: 0.5;}
+}
+@keyframes flameFlicker {
+  0%, 50%, 100% {transform: translateX(-50%) scale(1);}
+  25% {transform: translateX(-48%) scale(1.1);}
+  75% {transform: translateX(-52%) scale(0.9);}
+}
 </style>
 </head>
 <body>
+
 <nav>
   <a href="index.html">Home</a>
   <a href="photos.html">Photos</a>
@@ -24,9 +79,107 @@ nav a{color:white; margin:10px; text-decoration:none; font-weight:bold;}
   <a href="video.html">Video</a>
   <a href="quotes.html">Quotes</a>
 </nav>
-<div style="height:60px;"></div>
+
 <h1>Happy Diwali 💛</h1>
 <p>Wishing you joy, love & lights!</p>
 <a href="photos.html" class="next-btn">Next ➤</a>
+
+<!-- Diyas -->
+<div class="diya" style="left:50px;"><div class="flame"></div></div>
+<div class="diya" style="left:150px;"><div class="flame"></div></div>
+<div class="diya" style="left:250px;"><div class="flame"></div></div>
+<div class="diya" style="left:350px;"><div class="flame"></div></div>
+<div class="diya" style="left:450px;"><div class="flame"></div></div>
+
+<!-- Fireworks canvas -->
+<canvas id="fireworks"></canvas>
+
+<!-- Background Music -->
+<audio id="music" autoplay loop>
+  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+// Fireworks
+const canvas = document.getElementById('fireworks');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+const fireworks = [];
+const particles = [];
+
+class Firework {
+  constructor(x, y, targetY) {
+    this.x = x; this.y = y; this.targetY = targetY;
+    this.speed = 5; this.exploded = false;
+  }
+  update() {
+    this.y -= this.speed;
+    if(this.y <= this.targetY && !this.exploded) {
+      this.exploded = true;
+      for(let i=0;i<50;i++){
+        particles.push(new Particle(this.x, this.y));
+      }
+    }
+  }
+  draw() {
+    if(!this.exploded){
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, 3, 0, Math.PI*2);
+      ctx.fillStyle = 'white';
+      ctx.fill();
+    }
+  }
+}
+
+class Particle {
+  constructor(x, y){
+    this.x = x; this.y = y;
+    this.velX = (Math.random()-0.5)*6;
+    this.velY = (Math.random()-0.5)*6;
+    this.alpha = 1;
+    this.color = `hsl(${Math.random()*360},100%,50%)`;
+  }
+  update(){
+    this.x += this.velX;
+    this.y += this.velY;
+    this.alpha -= 0.02;
+  }
+  draw(){
+    ctx.globalAlpha = this.alpha;
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, 3, 0, Math.PI*2);
+    ctx.fillStyle = this.color;
+    ctx.fill();
+    ctx.globalAlpha = 1;
+  }
+}
+
+function animate(){
+  ctx.fillStyle = 'rgba(11,12,43,0.2)';
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+
+  if(Math.random()<0.05){
+    fireworks.push(new Firework(Math.random()*canvas.width, canvas.height, Math.random()*canvas.height/2));
+  }
+
+  for(let i=fireworks.length-1;i>=0;i--){
+    fireworks[i].update();
+    fireworks[i].draw();
+    if(fireworks[i].exploded) fireworks.splice(i,1);
+  }
+
+  for(let i=particles.length-1;i>=0;i--){
+    particles[i].update();
+    particles[i].draw();
+    if(particles[i].alpha <= 0) particles.splice(i,1);
+  }
+
+  requestAnimationFrame(animate);
+}
+animate();
+</script>
+
 </body>
 </html>
