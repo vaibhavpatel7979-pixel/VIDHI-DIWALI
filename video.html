@@ -6,11 +6,18 @@
 <title>Vidhi’s Video</title>
 <style>
 body{margin:0;height:100vh;background:linear-gradient(to top,#3a1c71,#d76d77,#ffaf7b); display:flex; justify-content:center; align-items:center; flex-direction:column;}
-h2{font-size:3em; margin-bottom:20px;}
+h2{font-size:3em; margin-bottom:20px; color:#fff; text-shadow:0 0 20px #ff0;}
 video{width:60%; border:5px solid gold; border-radius:15px; box-shadow:0 0 50px #ff6347;}
+nav{position:fixed; top:0; width:100%; background:#333; padding:10px; text-align:center; z-index:1000;}
+nav a{color:white; margin:10px; text-decoration:none; font-weight:bold;}
 </style>
 </head>
 <body>
+<nav>
+  <a href="sweets.html">Prev ◀</a>
+  <a href="video.html">Video</a>
+  <a href="quotes.html">Next ➤</a>
+</nav>
 <h2>Special Video for Vidhi 🎥</h2>
 <video controls autoplay loop muted>
 <source src="videos/vidhi.mp4" type="video/mp4">
