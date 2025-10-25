@@ -6,77 +6,63 @@
 <title>Vidhi's Photos</title>
 <style>
 body {
-  margin:0; padding-top:60px;
-  background:linear-gradient(to bottom, #fff7e6, #ffe6e6);
-  font-family:sans-serif;
-  display:flex; flex-direction:column; align-items:center;
-  overflow-x:hidden;
+  margin:0; padding-top:60px; overflow:hidden;
+  font-family:sans-serif; display:flex; flex-direction:column; align-items:center;
+  background: linear-gradient(to top, #0b0c2b, #2e1052); /* Night sky */
+  color:#fff;
 }
 
 /* Navigation */
 nav{
   position:fixed; top:0; width:100%; background:#333; padding:10px; text-align:center; z-index:1000;
 }
-nav a{
-  color:white; margin:10px; text-decoration:none; font-weight:bold;
-}
+nav a{color:white; margin:10px; text-decoration:none; font-weight:bold;}
 
 /* Heading */
 h2 {
-  text-align:center; color:#d35400;
-  margin-bottom:20px; font-size:2.5em;
-  text-shadow: 2px 2px 5px #ffecb3;
-  position:relative; z-index:2;
-  animation:fadeIn 2s ease forwards;
+  text-align:center; color:#ffd700; margin-bottom:20px; font-size:2.5em;
+  text-shadow: 0 0 10px #ffecb3, 0 0 20px #ffd700;
+  z-index:2; position:relative;
 }
-@keyframes fadeIn{from{opacity:0;} to{opacity:1;}}
 
-/* Photo container */
+/* Photo container: 2 per row */
 .photo-container {
   display:grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap:40px;
-  justify-items:center;
-  width:90%;
-  max-width:900px;
+  grid-template-columns: repeat(2, 1fr);
+  gap:40px; justify-items:center;
+  width:80%; max-width:800px;
   position:relative; z-index:2;
 }
 
-/* Photo frame with floating animation */
+/* Photo frame with floating + hover effect */
 .photo-frame {
-  width:250px; height:250px;
-  border:5px solid #fff; border-radius:15px; overflow:hidden;
-  box-shadow:0 10px 20px rgba(0,0,0,0.5);
-  transform:rotate(-5deg);
-  transition: all 0.7s ease;
+  width:250px; height:250px; border:5px solid #fff; border-radius:15px;
+  overflow:hidden; box-shadow:0 10px 20px rgba(255,215,0,0.5);
+  transform:rotate(-3deg); transition: all 0.7s ease;
   animation: float 4s ease-in-out infinite;
   position:relative;
 }
-.photo-frame:hover {
-  transform:rotate(0deg) scale(1.1);
-  box-shadow:0 20px 30px rgba(255,215,0,0.8);
-}
+.photo-frame:nth-child(even) { transform:rotate(3deg); }
+.photo-frame:hover { transform:rotate(0deg) scale(1.1); box-shadow:0 20px 30px rgba(255,255,200,0.8); }
 
 @keyframes float {
-  0%, 100% { transform: rotate(-5deg) translateY(0);}
-  50% { transform: rotate(-5deg) translateY(-15px);}
+  0%,100% { transform: translateY(0deg); }
+  25% { transform: translateY(-10px);}
+  50% { transform: translateY(-15px);}
+  75% { transform: translateY(-10px);}
 }
 
-/* Floating sparkles behind photos */
+/* Sparkles */
 .sparkle {
-  position:absolute;
-  width:5px; height:5px;
-  background:gold; border-radius:50%;
-  animation:twinkle 2s infinite;
-  opacity:0.8;
-  z-index:1;
+  position:absolute; width:5px; height:5px; background:gold; border-radius:50%;
+  animation:twinkle 2s infinite; opacity:0.8; z-index:1;
 }
 @keyframes twinkle{
   0%, 100% {transform:scale(1); opacity:0.8;}
   50% {transform:scale(1.5); opacity:1;}
 }
 
-/* Diyas at bottom */
+/* Diyas */
 .diya {
   position:absolute; bottom:20px; width:50px; height:80px;
   background:radial-gradient(circle at bottom, #ff9900, #cc6600);
@@ -142,7 +128,7 @@ h2 {
 <script>
 // Sparkles animation
 const sparkleContainer = document.getElementById('sparkles');
-for(let i=0;i<50;i++){
+for(let i=0;i<60;i++){
   const sparkle = document.createElement('div');
   sparkle.className='sparkle';
   sparkle.style.left=Math.random()*window.innerWidth+'px';
