@@ -5,49 +5,96 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Diwali Sweets</title>
 <style>
-body{margin:0;height:100vh;overflow:hidden;background:linear-gradient(to bottom,#fff7e6,#ffe6e6);font-family:sans-serif;display:flex;flex-direction:column;align-items:center;}
-h2{margin-top:60px;font-size:3em;color:#d35400;text-shadow:2px 2px 5px #ffecb3;}
-nav{position:fixed; top:0; width:100%; background:#333; padding:10px; text-align:center; z-index:1000;}
+body {
+  margin:0; padding-top:60px; height:100vh;
+  background: radial-gradient(circle at top, #fff7e6 0%, #ffe6e6 100%);
+  font-family:sans-serif; display:flex; flex-direction:column; align-items:center; overflow:hidden;
+}
+
+/* Navigation */
+nav{
+  position:fixed; top:0; width:100%; background:#333; padding:10px; text-align:center; z-index:1000;
+}
 nav a{color:white; margin:10px; text-decoration:none; font-weight:bold;}
-.sweet{
-  width:40px;height:40px;border-radius:50%;
-  position:absolute;
-  background:radial-gradient(circle at 30% 30%, #ff69b4, #ff1493);
-  box-shadow:0 0 15px #fff;
-  animation:fall linear infinite;
+
+/* Heading */
+h2 {
+  margin-top:60px; font-size:3em; color:#d35400;
+  text-shadow: 2px 2px 5px #ffecb3;
+  position:relative; z-index:2;
+  animation:fadeIn 2s ease forwards;
 }
-@keyframes fall{
-  0%{top:-50px; transform:rotate(0deg);}
-  100%{top:100vh; transform:rotate(360deg);}
+@keyframes fadeIn{from{opacity:0;} to{opacity:1;}}
+
+/* Sweets container */
+.sweets-container {
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap:30px; justify-items:center;
+  width:90%; max-width:900px;
+  position:relative; z-index:2;
 }
-/* Diya lights */
-.diya{position:absolute;width:15px;height:15px;border-radius:50%;background:radial-gradient(circle,#ffec00,#ff5500);box-shadow:0 0 10px #ffec00;}
+
+/* Sweet frame with floating + shadow */
+.sweet-frame {
+  width:120px; height:120px; border-radius:15px;
+  overflow:hidden; transition: all 0.7s ease;
+  animation: floatSweet 3s ease-in-out infinite;
+  position:relative; box-shadow:0 5px 15px rgba(0,0,0,0.3);
+}
+.sweet-frame:hover { transform:scale(1.2); box-shadow:0 10px 25px rgba(255,215,0,0.8); }
+@keyframes floatSweet {
+  0%,100%{transform: translateY(0);}
+  50%{transform: translateY(-10px);}
+}
+
+/* Sparkles around sweets */
+.sparkle {
+  position:absolute; width:4px; height:4px; background:gold; border-radius:50%;
+  opacity:0.8; animation:twinkle 2s infinite; z-index:1;
+}
+@keyframes twinkle {0%,100%{transform:scale(1);opacity:0.8;}50%{transform:scale(1.5);opacity:1;}}
+
+/* Next button */
+.next-btn {margin-top:30px; padding:10px 20px; background:gold; color:#000; text-decoration:none; font-weight:bold; border-radius:10px; z-index:2; position:relative;}
 </style>
 </head>
 <body>
+
 <nav>
   <a href="celebration.html">Prev ◀</a>
   <a href="sweets.html">Sweets</a>
   <a href="video.html">Next ➤</a>
 </nav>
-<h2>Enjoy Diwali Sweets 🍬</h2>
+
+<h2>Delicious Diwali Sweets 🍬</h2>
+
+<div class="sweets-container">
+  <div class="sweet-frame"><img src="images/kajukatli.png" width="100%" height="100%"></div>
+  <div class="sweet-frame"><img src="images/laddoo.png" width="100%" height="100%"></div>
+  <div class="sweet-frame"><img src="images/barfi.png" width="100%" height="100%"></div>
+  <div class="sweet-frame"><img src="images/mysorepak.png" width="100%" height="100%"></div>
+  <div class="sweet-frame"><img src="images/sonpapdi.png" width="100%" height="100%"></div>
+  <div class="sweet-frame"><img src="images/peda.png" width="100%" height="100%"></div>
+</div>
+
+<!-- Sparkles -->
+<div id="sparkles"></div>
+
+<a href="video.html" class="next-btn">Next ➤</a>
 
 <script>
-function random(min,max){return Math.random()*(max-min)+min;}
-for(let i=0;i<15;i++){
-  const s=document.createElement("div");
-  s.className="sweet";
-  s.style.left=random(20,window.innerWidth-50)+"px";
-  s.style.animationDuration = random(3,6)+'s';
-  document.body.appendChild(s);
-}
-for(let i=0;i<20;i++){
-  const d=document.createElement("div");
-  d.className="diya";
-  d.style.left=random(0,window.innerWidth-15)+"px";
-  d.style.top=random(0,window.innerHeight-15)+"px";
-  document.body.appendChild(d);
+// Sparkles animation
+const sparkleContainer=document.getElementById('sparkles');
+for(let i=0;i<50;i++){
+  const s=document.createElement('div');
+  s.className='sparkle';
+  s.style.left=Math.random()*window.innerWidth+'px';
+  s.style.top=Math.random()*window.innerHeight+'px';
+  s.style.animationDuration=(1+Math.random()*2)+'s';
+  sparkleContainer.appendChild(s);
 }
 </script>
+
 </body>
 </html>
