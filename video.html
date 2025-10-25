@@ -3,70 +3,118 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vidhi’s Video</title>
+<title>Vidhi’s Special Video</title>
 <style>
-body{
-  margin:0;
-  height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  flex-direction:column;
-  background:linear-gradient(to top,#3a1c71,#d76d77,#ffaf7b);
-  overflow:hidden;
+body {
+  margin:0; padding-top:60px; height:100vh;
+  background: linear-gradient(to top, #3a1c71, #d76d77, #ffaf7b);
   font-family:sans-serif;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  overflow:hidden;
 }
-h2{font-size:3em; margin-bottom:20px; color:#fff; text-shadow:0 0 20px #ff0;}
-video{
-  width:60%;
-  border:5px solid gold;
-  border-radius:15px;
-  box-shadow:0 0 50px #ff6347;
-  animation: glow 2s infinite alternate;
-}
-@keyframes glow{
-  0%{box-shadow:0 0 30px #ff6347,0 0 50px #ffd700;}
-  100%{box-shadow:0 0 60px #ff6347,0 0 100px #ffd700;}
-}
+
+/* Navigation */
 nav{
   position:fixed; top:0; width:100%; background:#333; padding:10px; text-align:center; z-index:1000;
 }
 nav a{color:white; margin:10px; text-decoration:none; font-weight:bold;}
-/* Sparkles over video */
-.sparkle{
-  position:absolute; width:5px; height:5px; border-radius:50%; background:gold;
-  opacity:0.8; animation:spark 1.5s linear infinite;
+
+/* Heading */
+h2 {
+  font-size:3em; color:#fff; text-shadow:0 0 20px #ff0,0 0 40px #ff6347,0 0 60px #ff69b4;
+  margin-bottom:20px;
+  animation:headingGlow 2s infinite alternate;
+  text-align:center;
 }
-@keyframes spark{
-  0%{transform:translate(0,0) scale(1); opacity:1;}
-  50%{transform:translate(var(--x), var(--y)) scale(0.5); opacity:0.5;}
-  100%{transform:translate(0,0) scale(1); opacity:1;}
+@keyframes headingGlow {
+  0% {text-shadow:0 0 20px #ff0,0 0 40px #ff6347;}
+  50% {text-shadow:0 0 40px #fff,0 0 80px #ff4500;}
+  100% {text-shadow:0 0 60px #ffdd00,0 0 120px #ff6347;}
+}
+
+/* Video frame */
+.video-frame {
+  width:60%;
+  max-width:700px;
+  border:8px solid gold;
+  border-radius:20px;
+  box-shadow:0 0 50px rgba(255,215,0,0.8);
+  overflow:hidden;
+  position:relative;
+  z-index:2;
+}
+
+/* Video glow effect */
+.video-frame video {
+  width:100%;
+  height:auto;
+  display:block;
+  border-radius:15px;
+}
+
+/* Floating hearts & sparkles */
+.sparkle, .heart {
+  position:absolute;
+  width:6px; height:6px;
+  border-radius:50%;
+  background:gold;
+  opacity:0.8;
+  animation:floatUp 4s linear infinite;
+  z-index:1;
+}
+.heart {
+  width:15px; height:15px;
+  background:red;
+  border-radius:50% 50% 50% 50%;
+  transform:rotate(-45deg);
+}
+@keyframes floatUp {
+  0% {transform: translateY(0) scale(1); opacity:0.8;}
+  50% {transform: translateY(-100px) scale(1.2); opacity:1;}
+  100% {transform: translateY(-200px) scale(1); opacity:0;}
+}
+
+/* Next button */
+.next-btn {
+  margin-top:30px; padding:10px 20px;
+  background:gold; color:#000; text-decoration:none;
+  font-weight:bold; border-radius:10px; z-index:2; position:relative;
 }
 </style>
 </head>
 <body>
+
 <nav>
   <a href="sweets.html">Prev ◀</a>
   <a href="video.html">Video</a>
   <a href="quotes.html">Next ➤</a>
 </nav>
-<h2>Special Video for Vidhi 🎥</h2>
-<video controls autoplay loop muted>
-<source src="videos/vidhi.mp4" type="video/mp4">
-Your browser does not support the video tag.
-</video>
 
+<h2>Special Video for Vidhi 🎥💛</h2>
+
+<div class="video-frame">
+  <video controls autoplay loop muted>
+    <source src="videos/vidhi.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+</div>
+
+<a href="quotes.html" class="next-btn">Next ➤</a>
+
+<!-- Sparkles & hearts script -->
 <script>
-function random(min,max){return Math.random()*(max-min)+min;}
-for(let i=0;i<30;i++){
-  const s=document.createElement("div");
-  s.className="sparkle";
-  s.style.left=random(0,window.innerWidth)+'px';
-  s.style.top=random(100,window.innerHeight-50)+'px';
-  s.style.setProperty('--x', random(-50,50)+'px');
-  s.style.setProperty('--y', random(-50,50)+'px');
-  s.style.animationDuration=random(1,3)+'s';
-  document.body.appendChild(s);
+const numParticles = 40;
+for(let i=0;i<numParticles;i++){
+  const elem = document.createElement('div');
+  if(i%5===0){ // every 5th is heart
+    elem.className='heart';
+  } else {
+    elem.className='sparkle';
+  }
+  elem.style.left = Math.random()*window.innerWidth+'px';
+  elem.style.top = window.innerHeight + 'px';
+  elem.style.animationDuration = (3 + Math.random()*2)+'s';
+  document.body.appendChild(elem);
 }
 </script>
 
