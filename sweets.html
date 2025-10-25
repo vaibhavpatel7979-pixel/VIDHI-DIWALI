@@ -5,39 +5,23 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Diwali Sweets</title>
 <style>
-body {
-  margin:0;
-  height:100vh;
-  overflow:hidden;
-  background:linear-gradient(to bottom, #fff7e6, #ffe6e6);
-  font-family:sans-serif;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-}
-h2 {
-  margin-top:60px;
-  font-size:3em;
-  color:#d35400;
-  text-shadow: 2px 2px 5px #ffecb3;
-}
-nav{
-  position:fixed; top:0; width:100%; background:#333; padding:10px; text-align:center; z-index:1000;
-}
+body{margin:0;height:100vh;overflow:hidden;background:linear-gradient(to bottom,#fff7e6,#ffe6e6);font-family:sans-serif;display:flex;flex-direction:column;align-items:center;}
+h2{margin-top:60px;font-size:3em;color:#d35400;text-shadow:2px 2px 5px #ffecb3;}
+nav{position:fixed; top:0; width:100%; background:#333; padding:10px; text-align:center; z-index:1000;}
 nav a{color:white; margin:10px; text-decoration:none; font-weight:bold;}
-.sweet {
-  width:40px; height:40px;
-  border-radius:50%;
+.sweet{
+  width:40px;height:40px;border-radius:50%;
   position:absolute;
   background:radial-gradient(circle at 30% 30%, #ff69b4, #ff1493);
   box-shadow:0 0 15px #fff;
-  animation:fall 5s linear infinite;
+  animation:fall linear infinite;
 }
 @keyframes fall{
   0%{top:-50px; transform:rotate(0deg);}
-  50%{transform:rotate(180deg);}
   100%{top:100vh; transform:rotate(360deg);}
 }
+/* Diya lights */
+.diya{position:absolute;width:15px;height:15px;border-radius:50%;background:radial-gradient(circle,#ffec00,#ff5500);box-shadow:0 0 10px #ffec00;}
 </style>
 </head>
 <body>
@@ -48,13 +32,22 @@ nav a{color:white; margin:10px; text-decoration:none; font-weight:bold;}
 </nav>
 <h2>Enjoy Diwali Sweets 🍬</h2>
 
-<div class="sweet" style="left:50px;"></div>
-<div class="sweet" style="left:120px;"></div>
-<div class="sweet" style="left:190px;"></div>
-<div class="sweet" style="left:260px;"></div>
-<div class="sweet" style="left:330px;"></div>
-<div class="sweet" style="left:400px;"></div>
-<div class="sweet" style="left:470px;"></div>
-
+<script>
+function random(min,max){return Math.random()*(max-min)+min;}
+for(let i=0;i<15;i++){
+  const s=document.createElement("div");
+  s.className="sweet";
+  s.style.left=random(20,window.innerWidth-50)+"px";
+  s.style.animationDuration = random(3,6)+'s';
+  document.body.appendChild(s);
+}
+for(let i=0;i<20;i++){
+  const d=document.createElement("div");
+  d.className="diya";
+  d.style.left=random(0,window.innerWidth-15)+"px";
+  d.style.top=random(0,window.innerHeight-15)+"px";
+  document.body.appendChild(d);
+}
+</script>
 </body>
 </html>
