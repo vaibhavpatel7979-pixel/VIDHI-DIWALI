@@ -5,25 +5,93 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Diwali Quotes</title>
 <style>
-body{margin:0;height:100vh;background:linear-gradient(to top,#20002c,#cbb4d4); display:flex; justify-content:center; align-items:center; flex-direction:column; color:#fff; font-family:sans-serif;}
-h2{font-size:3em; margin-bottom:20px;}
-.quote{font-size:1.5em; margin:10px; text-align:center; animation:fadein 2s ease forwards; opacity:0;}
-@keyframes fadein{to{opacity:1;}}
-nav{position:fixed; top:0; width:100%; background:#333; padding:10px; text-align:center; z-index:1000;}
+body {
+  margin:0; height:100vh;
+  background: radial-gradient(circle at top, #20002c, #cbb4d4);
+  display:flex; justify-content:center; align-items:center; flex-direction:column;
+  font-family:sans-serif; color:#fff; overflow:hidden;
+}
+
+/* Navigation */
+nav{
+  position:fixed; top:0; width:100%; background:#333; padding:10px; text-align:center; z-index:1000;
+}
 nav a{color:white; margin:10px; text-decoration:none; font-weight:bold;}
+
+/* Heading */
+h2{
+  font-size:3em; margin-bottom:30px;
+  text-shadow:0 0 10px #fff,0 0 20px #ffecb3;
+}
+
+/* Quotes */
+.quote{
+  font-size:1.5em; margin:10px; text-align:center;
+  animation:fadein 2s ease forwards;
+  opacity:0;
+  color:#ffd700;
+  text-shadow:0 0 10px #fff, 0 0 20px #ff6347;
+}
+
+/* Quote animation delay for sequence */
+.quote:nth-child(2){animation-delay:1s;}
+.quote:nth-child(3){animation-delay:2s;}
+.quote:nth-child(4){animation-delay:3s;}
+.quote:nth-child(5){animation-delay:4s;}
+.quote:nth-child(6){animation-delay:5s;}
+
+@keyframes fadein{to{opacity:1;}}
+
+/* Sparkles / floating lights */
+.sparkle {
+  position:absolute;
+  width:6px; height:6px;
+  border-radius:50%;
+  background:gold;
+  opacity:0.8;
+  animation:floatUp 4s linear infinite;
+  z-index:0;
+}
+@keyframes floatUp{
+  0% {transform: translateY(0) scale(1); opacity:0.8;}
+  50% {transform: translateY(-80px) scale(1.2); opacity:1;}
+  100% {transform: translateY(-150px) scale(1); opacity:0;}
+}
+
+/* Next button */
+.next-btn {margin-top:30px; padding:10px 20px; background:gold; color:#000; text-decoration:none; font-weight:bold; border-radius:10px;}
 </style>
 </head>
 <body>
+
 <nav>
   <a href="video.html">Prev ◀</a>
   <a href="quotes.html">Quotes</a>
 </nav>
+
 <h2>Happy Diwali from Vidhi 💛</h2>
-<div class="quote" style="animation-delay:0s;">Wishing you a Happy Diwali from Vidhi 💛</div>
-<div class="quote" style="animation-delay:1s;">May your life be filled with light, love & laughter ✨</div>
-<div class="quote" style="animation-delay:2s;">विदि की ओर से आपको दीपावली की शुभकामनाएँ 🪔</div>
-<div class="quote" style="animation-delay:3s;">रौशनी और खुशियों से भरी रहे आपकी दीपावली ✨</div>
-<div class="quote" style="animation-delay:4s;">दीपों की तरह आपका जीवन भी रोशन हो 🌟</div>
-<div class="quote" style="animation-delay:5s;">मिठास और खुशियों से भरी रहे यह दिवाली 💛</div>
+
+<div class="quote">Wishing you a Happy Diwali from Vidhi 💛</div>
+<div class="quote">May your life be filled with light, love & laughter ✨</div>
+<div class="quote">विदि की ओर से आपको दीपावली की शुभकामनाएँ 🪔</div>
+<div class="quote">रौशनी और खुशियों से भरी रहे आपकी दीपावली ✨</div>
+<div class="quote">दीपों की तरह आपका जीवन भी रोशन हो 🌟</div>
+<div class="quote">मिठास और खुशियों से भरी रहे यह दिवाली 💛</div>
+
+<a href="index.html" class="next-btn">Home 🏠</a>
+
+<!-- Sparkles script -->
+<script>
+const numParticles = 50;
+for(let i=0;i<numParticles;i++){
+  const elem = document.createElement('div');
+  elem.className='sparkle';
+  elem.style.left = Math.random()*window.innerWidth+'px';
+  elem.style.top = Math.random()*window.innerHeight+'px';
+  elem.style.animationDuration = (3 + Math.random()*2)+'s';
+  document.body.appendChild(elem);
+}
+</script>
+
 </body>
 </html>
